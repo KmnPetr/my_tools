@@ -1,0 +1,13 @@
+
+services:
+  portainer:
+    image: portainer/portainer-ce:2.33.2
+    container_name: portainer
+    restart: unless-stopped
+    ports:
+      - "127.0.0.1:9000:9000"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./volumes/portainer:/data
+    environment:
+      - TZ=Europe/Moscow
