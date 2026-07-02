@@ -2,9 +2,7 @@ version: '3.8'
 services:
   dind-jenkins:
     container_name: dind-jenkins
-    build:
-      context: .
-      dockerfile: Dockerfile.jenkins
+    build: .
     image: dind-jenkins:java21
     privileged: true
     restart: always
