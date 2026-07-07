@@ -1,24 +1,25 @@
-version: '3.8'
 services:
-  dind-jenkins:
-    container_name: dind-jenkins
-    build: .
-    image: dind-jenkins:java21
-    privileged: true
+  jenkins:
+    container_name: jenkins
+    build:
+      context: .
+      args:
+        USER_ID: 1000
+        GROUP_ID: 1000
+        DOCKER_GROUP_ID: 984
+    image: local-jenkins:java21
     restart: always
-    environment:
-      DOCKER_TLS_CERTDIR: "/certs"
     ports:
       - "8080:8080"
       - "50000:50000"
     volumes:
-      - ./jenkins-volume:/root/.jenkins
-      - ~/.ssh:/root/.ssh  # Пробрасываем SSH-ключи
-      - ~/.gitconfig:/root/.gitconfig  # Пробрасываем глобальные настройки Git
+      - ./jenkins-volume:/home/petr/.jenkins
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/petr/.ssh:/home/petr/.ssh
+      - /home/petr/.gitconfig:/home/petr/.gitconfig:ro
     networks:
-      - dind-jenkins-network
-
+      - jenkins-network
 
 networks:
-  dind-jenkins-network:
+  jenkins-network:
     driver: bridge
