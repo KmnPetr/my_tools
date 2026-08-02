@@ -9,9 +9,18 @@ services:
       PGADMIN_CONFIG_SERVER_MODE: 'False'
     ports:
       - "127.0.0.1:5050:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
     volumes:
       - pgadmin_data:/var/lib/pgadmin
-    restart: unless-stopped
+    networks:
+      - lang_project_network
+    restart: always
 
 volumes:
   pgadmin_data:
+
+networks:
+  lang_project_network:
+    external: true
+    name: language_project_lang_project_network
